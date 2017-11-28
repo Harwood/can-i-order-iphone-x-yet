@@ -16,13 +16,13 @@ from docopt import docopt
 ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 SMS_ENABLED = ACCOUNT_SID and AUTH_TOKEN
-PART_ID = 'MQAC2B/A'  # IPhone X Space Grey 64GB
+PART_ID = 'MQCN2LL/A'  # IPhone X Space Grey 256GB
 
 
 def _get_stores_availability(post_code, part_id):
     url = (
-        'https://www.apple.com/uk/shop/retail/pickup-message?pl=true'
-        '&parts.0={part_id}&location={post_code}'
+        'https://www.apple.com/shop/retail/pickup-message?pl=true'
+        '&cppart=VERIZON/US&parts.0={part_id}&location={post_code}'
     ).format(part_id=part_id, post_code=post_code)
     resp = requests.get(url)
     resp.raise_for_status()
@@ -68,7 +68,9 @@ if __name__ == '__main__':
         print('You must specify a post code')
     else:
         try:
-            can_you, detail = can_i_order_iphone_x(post_code=arguments['POST_CODE'])
+            can_you, detail = can_i_order_iphone_x(
+                post_code=arguments['POST_CODE']
+            )
             print(detail)
         except ValueError as exc:
             print(str(exc))
